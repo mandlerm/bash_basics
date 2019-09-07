@@ -7,9 +7,14 @@ function server () {
       read  message path version
       if [[ $message = "GET" ]]
       then
-        echo "HTTP/1.1 200 OK"
+        if [[ -f "./www/$path.html" ]]; then
+          echo -ne "HTTP/1.1 200 OK\r\n\r\n"; cat "./www/$path.html"
+        else
+        echo -ne "HTTP/1.1 404 Not Found\r\n\r\n"
+        fi
+
       else
-      echo "HTTP/1.1 400 Bad Request"
+      echo -ne "HTTP/1.1 400 Bad Request\r\n\r\n"
       fi
     done
 }
